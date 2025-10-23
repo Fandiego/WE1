@@ -24,6 +24,54 @@ export class OfflineGameService {
             win: 4,
             lost: 5,
         },
+        /**
+         * Testing
+         */
+        Sarah: {
+            user: 'Sarah',
+            win: 7,
+            lost: 2,
+        },
+        Tom: {
+            user: 'Tom',
+            win: 5,
+            lost: 4,
+        },
+        Julia: {
+            user: 'Julia',
+            win: 8,
+            lost: 1,
+        },
+        Kevin: {
+            user: 'Kevin',
+            win: 2,
+            lost: 7,
+        },
+        Anna: {
+            user: 'Anna',
+            win: 6,
+            lost: 3,
+        },
+        David: {
+            user: 'David',
+            win: 9,
+            lost: 0,
+        },
+        Ben: {
+            user: 'Ben',
+            win: 1,
+            lost: 8,
+        },
+        Emma: {
+            user: 'Emma',
+            win: 5,
+            lost: 4,
+        },
+        Noah: {
+            user: 'Noah',
+            win: 3,
+            lost: 6,
+        },
     };
 
     // Can be used to check if the selected hand wins/loses
@@ -46,9 +94,35 @@ export class OfflineGameService {
         },
     };
 
-    async getRankings() { 
+    async getRankings() {
         // TODO create ranking from playerState for Example: [{rank: 1, wins: 10, players: ["Michael", "Lias"]}, {rank: 2, wins: 5, players: ["Max"]}]
-        return Promise.resolve(this.#playerState);
+        const players = Object.values(this.#playerState);
+
+        // Sort players by wins (descending)
+        const sorted = players.sort((a, b) => b.win - a.win);
+
+        // Take only the first 10 entries
+        const topTen = sorted.slice(0, 10);
+
+        let lastWins = null;
+        let lastRank = 0;
+
+        // Add rank numbers
+        const rankings = topTen.map((player, index) => {
+            // If wins are same as previous, keep the same rank
+            if (player.win !== lastWins) {
+                lastRank = index + 1;  // new rank
+                lastWins = player.win;
+            }
+            return {
+                rank: lastRank,
+                user: player.user,
+                wins: player.win,
+                lost: player.lost,
+            };
+        });
+
+        return Promise.resolve(rankings);
     }
 
     // TODO

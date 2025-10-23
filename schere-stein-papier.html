@@ -7,7 +7,27 @@
   <script src="scripts/main.js" type="module"></script>
 </head>
 <body>
-<h1>Schere Stein Papier</h1>
+    <main class="wrap">
+        <header>
+            <h1>Startseite — Lokale Rangliste (Top 10)</h1>
+        </header>
 
+        <section>
+            <ul id="board"></ul>
+        </section>
+
+        <section class="flex">
+            <input id="name" type="text" placeholder="Name" autocomplete="name" required>
+            <button id="start">Spiel starten</button>
+        </section>
+
+        <section id="game">
+            <p>Spiel für: <strong id="player"></strong></p>
+            <div class="flex">
+                <button id="win">Sieg hinzufügen</button>
+                <button id="back">Zurück</button>
+            </div>
+        </section>
+    </main>
 </body>
 </html>
