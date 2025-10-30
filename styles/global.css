@@ -13,3 +13,11 @@
 #board li:nth-of-type(3) #rank {
     color: saddlebrown;
 }
+
+#gameSection {
+    display: none;
+}
+
+#historySection {
+    display: none;
+}

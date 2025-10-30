@@ -79,20 +79,41 @@ export class OfflineGameService {
     #resultLookup = {
         scissors: {
             scissors: 0,
-            rock: 1,
-            paper: -1,
+            rock: -1,
+            paper: 1,
+            spock: -1,
+            lizard: 1
         },
         rock: {
-            scissors: 0,
+            scissors: 1,
             rock: 0,
-            paper: 0,
+            paper: -1,
+            spock: -1,
+            lizard: 1
         },
         paper: {
-            scissors: 0,
-            rock: 0,
+            scissors: -1,
+            rock: 1,
             paper: 0,
+            spock: 1,
+            lizard: -1
+        },
+        spock: {
+            scissors: 1,
+            rock: 1,
+            paper: -1,
+            spock: 0,
+            lizard: -1
+        },
+        lizard: {
+            scissors: -1,
+            rock: -1,
+            paper: 1,
+            spock: 1,
+            lizard: 0
         },
     };
+
 
     async getRankings() {
         // TODO create ranking from playerState for Example: [{rank: 1, wins: 10, players: ["Michael", "Lias"]}, {rank: 2, wins: 5, players: ["Max"]}]
@@ -127,13 +148,13 @@ export class OfflineGameService {
 
     // TODO
     async evaluate(playerName, playerHand) {
-        const systemHand = this.possibleHands[0];
-        const gameEval = 0;
+        const systemHand = this.possibleHands[Math.floor(Math.random() * this.possibleHands.length)];
+        const gameEval = this.#resultLookup[playerHand][systemHand];
 
         console.log(playerName, playerHand, systemHand, gameEval);
 
         await Utils.wait(OfflineGameService.DELAY_MS); // emulate async
 
-        return gameEval;
+        return {gameEval, systemHand};
     }
 }
