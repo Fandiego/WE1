@@ -14,6 +14,7 @@ class GameService {
     }
 
     async getRankings() {
+        console.log(this.service.getRankings());
         return this.service.getRankings();
     }
 

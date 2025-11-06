@@ -2,15 +2,34 @@ import { gameService } from './model/game-service.js';
 
 // Dummy Code
 console.log('isOnline:', gameService.isOnline);
+const slider = document.getElementById('slider');
 
-const rankings = await gameService.getRankings();
-const board = document.getElementById("board");
+let rankings = await gameService.getRankings();
+const board = document.getElementById('board');
 
-Object.values(rankings).forEach(x=> {
-    const li = document.createElement('li');
-    li.innerHTML = `<span id="rank">${x.rank}.</span> ${x.user} (${x.wins}W, ${x.lost}L)`;
-    board.appendChild(li);
+async function loadRanking() {
+    rankings = await gameService.getRankings();
+    board.replaceChildren();
+    Object.values(rankings).forEach((x) => {
+        const li = document.createElement('li');
+        li.innerHTML = `<span id="rank">${x.rank}.</span> ${x.user} (${x.wins}W, ${x.lost}L)`;
+        board.appendChild(li);
+    });
+}
+
+loadRanking();
+
+// Add an event listener
+slider.addEventListener('change', function() {
+    if (this.checked) {
+        gameService.isOnline = true;
+        loadRanking();
+    } else {
+        gameService.isOnline = false;
+        loadRanking();
+    }
 });
+
 
 // dummy
 console.log(await gameService.evaluate('Michael', gameService.possibleHands[0]));
@@ -67,17 +86,10 @@ buttons.forEach(btn => {
             gameWinner.innerHTML = null;
             const row = historyTable.insertRow(0);
             const resultText = { 1: "W", 0: "Draw", "-1": "L" };
-            const handText = {
-                scissors: "Schere",
-                rock: "Stein",
-                paper: "Papier",
-                spock: "Spock",
-                lizard: "Echse"
-            };
-            row.insertCell().textContent = playerName.textContent;
-            row.insertCell().textContent = resultText[result.gameEval] || "?";
-            row.insertCell().textContent = handText[playerHand] ?? playerHand;
-            row.insertCell().textContent = handText[result.systemHand] ?? result.systemHand;
+            row.insertCell().textContent = result.playerName;
+            row.insertCell().textContent = resultText[result.gameEval];
+            row.insertCell().textContent = result.playerHand;
+            row.insertCell().textContent = result.systemHand;
 
         }, 3000);
     });

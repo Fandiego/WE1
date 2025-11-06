@@ -155,6 +155,6 @@ export class OfflineGameService {
 
         await Utils.wait(OfflineGameService.DELAY_MS); // emulate async
 
-        return {gameEval, systemHand};
+        return {playerName, gameEval, playerHand, systemHand};
     }
 }

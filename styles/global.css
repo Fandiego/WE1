@@ -21,3 +21,66 @@
 #historySection {
     display: none;
 }
+
+.switch {
+    position: relative;
+    display: inline-block;
+    width: 160px;
+    height: 36px;
+}
+
+/* Hide the checkbox */
+.switch input {
+    opacity: 0;
+    width: 0;
+    height: 0;
+}
+
+/* Slider background */
+.slider {
+    position: absolute;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background-color: #ccc;
+    border-radius: 36px;
+    transition: background-color 0.25s;
+}
+
+/* Knob */
+.slider::before {
+    content: "";
+    position: absolute;
+    height: 32px;
+    width: 32px;
+    left: 2px;
+    top: 2px;
+    background-color: white;
+    border-radius: 50%;
+    transition: transform 0.25s;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+}
+
+/* Text labels inside slider */
+.slider::after {
+    content: "Offline";
+    position: absolute;
+    width: 100%;
+    text-align: center;
+    line-height: 36px;
+    font-family: sans-serif;
+    font-weight: bold;
+    color: white;
+    transition: content 0.25s;
+}
+
+/* Checked state */
+input:checked + .slider {
+    background-color: #4cd964;
+}
+
+input:checked + .slider::before {
+    transform: translateX(128px); /* width - knob size - padding */
+}
+
+input:checked + .slider::after {
+    content: "Online";
+}
