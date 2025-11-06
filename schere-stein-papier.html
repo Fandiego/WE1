@@ -9,54 +9,59 @@
 <body>
     <main class="wrap">
         <header>
-            <h1 id="title"> Startseite — Lokale Rangliste (Top 10)
-                <label class="switch">
+            <h1 id="title">
+                <span id="titleContent"></span>
+                <label id="switch" class="switch">
                     <input type="checkbox" id="slider">
                     <span class="slider"></span>
                 </label>
             </h1>
         </header>
 
-        <section>
-            <ul id="board"></ul>
+        <section id="startpage">
+            <section>
+                <ul id="leaderboard"></ul>
+            </section>
+
+            <section id="playerInputSection" class="flex">
+                <input id="nameField" type="text" placeholder="Name" autocomplete="name" required>
+                <button id="startButton">Spiel starten</button>
+            </section>
         </section>
 
-        <section id="startSection" class="flex">
-            <input id="name" type="text" placeholder="Name" autocomplete="name" required>
-            <button id="start">Spiel starten</button>
-        </section>
+        <section id="gamepage">
+            <section id="gameSection">
+                <p>Spiel für: <strong id="playerNameDisplay"></strong></p>
+                <div id="selectSection">
+                    <button data-hand="scissors">Schere</button>
+                    <button data-hand="rock">Stein</button>
+                    <button data-hand="paper">Papier</button>
+                    <button data-hand="spock">Brunnen</button>
+                    <button data-hand="lizard">Streichholz</button>
+                </div>
+                <div>
+                    <p id="resultMessage"></p>
+                </div>
+                <div class="flex">
+                    <button id="returnButton">Zurück</button>
+                </div>
+            </section>
 
-        <section id="gameSection">
-            <p>Spiel für: <strong id="player"></strong></p>
-            <div id="select">
-                <button data-hand="scissors">Schere</button>
-                <button data-hand="rock">Stein</button>
-                <button data-hand="paper">Papier</button>
-                <button data-hand="spock">Brunnen</button>
-                <button data-hand="lizard">Streichholz</button>
-            </div>
-            <div>
-                <p id="game-winner"></p>
-            </div>
-            <div class="flex">
-                <button id="back">Zurück</button>
-            </div>
-        </section>
-
-        <section id="historySection">
-            <h3>History</h3>
-            <table id="historyTable">
-                <thead>
-                <tr>
-                    <th>Name</th>
-                    <th>Score</th>
-                    <th>Player Hand</th>
-                    <th>Computer Hand</th>
-                </tr>
-                </thead>
-                <tbody>
-                </tbody>
-            </table>
+            <section id="historySection">
+                <h3>History</h3>
+                <table id="historyTable">
+                    <thead>
+                    <tr>
+                        <th>Name</th>
+                        <th>Score</th>
+                        <th>Player Hand</th>
+                        <th>Computer Hand</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    </tbody>
+                </table>
+            </section>
         </section>
     </main>
 </body>

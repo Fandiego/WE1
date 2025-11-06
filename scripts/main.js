@@ -1,96 +1,91 @@
 import { gameService } from './model/game-service.js';
 
-// Dummy Code
-console.log('isOnline:', gameService.isOnline);
+// startpage elements
 const slider = document.getElementById('slider');
+const startButton = document.getElementById("startButton");
 
-let rankings = await gameService.getRankings();
-const board = document.getElementById('board');
+// gamepage elements
+const selectSection = document.getElementById("selectSection");
+const returnButton = document.getElementById("returnButton");
+
+let playerName;
 
 async function loadRanking() {
-    rankings = await gameService.getRankings();
-    board.replaceChildren();
+    const leaderboard = document.getElementById('leaderboard')
+    const rankings = await gameService.getRankings();
+    leaderboard.replaceChildren();
     Object.values(rankings).forEach((x) => {
         const li = document.createElement('li');
         li.innerHTML = `<span id="rank">${x.rank}.</span> ${x.user} (${x.wins}W, ${x.lost}L)`;
-        board.appendChild(li);
+        leaderboard.appendChild(li);
     });
 }
 
-loadRanking();
+function showStartpage() {
+    loadRanking();
+    const mode = document.getElementById("slider").checked ? "Online" : "Lokale";
+    document.getElementById("titleContent").textContent = `Startseite — ${mode} Rangliste (Top 10)`;
+    document.getElementById("switch").style.display = "block";
+    document.getElementById("startpage").style.display = "block";
+    document.getElementById("gamepage").style.display = "none";
+}
 
-// Add an event listener
-slider.addEventListener('change', function() {
-    if (this.checked) {
-        gameService.isOnline = true;
-        loadRanking();
-    } else {
-        gameService.isOnline = false;
-        loadRanking();
-    }
+function showGamepage() {
+    document.getElementById("titleContent").textContent = "Neue Runde";
+    document.getElementById("switch").style.display = "none";
+    document.getElementById("startpage").style.display = "none";
+    document.getElementById("gamepage").style.display = "block";
+}
+
+slider.addEventListener('change', () => {
+    gameService.isOnline = slider.checked;
+    const mode = slider.checked ? "Online" : "Lokale";
+    document.getElementById("titleContent").textContent = `Startseite — ${mode} Rangliste (Top 10)`;
+    loadRanking();
 });
 
-
-// dummy
-console.log(await gameService.evaluate('Michael', gameService.possibleHands[0]));
-
-const title = document.getElementById("title");
-const startBtn = document.getElementById("start");
-const nameInput = document.getElementById("name");
-const playerName = document.getElementById("player");
-const startSection = document.getElementById("startSection");
-const gameSection = document.getElementById("gameSection");
-const  historySection = document.getElementById("historySection");
-const historyTable = document.getElementById("historyTable").querySelector("tbody");
-
-startBtn.addEventListener("click", () => {
-    const name = nameInput.value.trim();
-    if (!name) {
+startButton.addEventListener("click", () => {
+    playerName = document.getElementById("nameField").value.trim();
+    if (!playerName) {
         alert("Bitte gib einen Namen ein!");
         return;
     }
-
-    // Set player name dynamically
-    title.innerText = "Neue Runde";
-    playerName.textContent = name;
-
-    // Hide start page, show game section
-    board.style.display = "none";
-    startSection.style.display = "none";
-    gameSection.style.display = "block";
-    historySection.style.display = "block";
+    document.getElementById("playerNameDisplay").textContent = playerName;
+    showGamepage();
 });
 
-// All buttons inside #select
-const buttons = document.querySelectorAll("#select button");
-const gameWinner = document.getElementById("game-winner");
-
-// Add click listeners
-buttons.forEach(btn => {
-    btn.addEventListener("click", async () => {
-        const playerHand = btn.dataset.hand;  // read data-hand
-        const result = await gameService.evaluate(playerName.textContent, playerHand);
-        if (result.gameEval === 1) {
-            gameWinner.innerHTML = `${playerName.textContent} won`;
-        }
-        else if (result.gameEval === -1) {
-            gameWinner.innerHTML = `Computer won`;
-        }
-
-        else {
-            gameWinner.innerHTML = `draw`;
-        }
-        buttons.forEach((el => {el.disabled = true;}));
-        setTimeout(() => {
-            buttons.forEach((el => {el.disabled = false;}));
-            gameWinner.innerHTML = null;
-            const row = historyTable.insertRow(0);
-            const resultText = { 1: "W", 0: "Draw", "-1": "L" };
-            row.insertCell().textContent = result.playerName;
-            row.insertCell().textContent = resultText[result.gameEval];
-            row.insertCell().textContent = result.playerHand;
-            row.insertCell().textContent = result.systemHand;
-
-        }, 3000);
-    });
+returnButton.addEventListener("click", () => {
+    showStartpage();
 });
+
+selectSection.addEventListener("click", async (event) => {
+    event.preventDefault();
+    const playerHand = event.target.dataset.hand;  // read data-hand
+    const result = await gameService.evaluate(playerName, playerHand);
+    const resultMessage = document.getElementById("resultMessage");
+
+    // display winner
+    const winnerMessage = { 1: `${playerName} won`, "-1": "Computer won", 0: "draw"};
+    resultMessage.innerHTML = winnerMessage[result.gameEval];
+
+    // disable Button temporally
+    selectSection.querySelectorAll('button').forEach((el => {el.disabled = true;}));
+    setTimeout(() => {
+        selectSection.querySelectorAll('button').forEach((el => {el.disabled = false;}));
+
+        // remove winner message
+        resultMessage.innerHTML = null;
+
+        // add to history
+        const historyTable = document.getElementById("historyTable").querySelector("tbody");
+        const row = historyTable.insertRow(0);
+        const resultText = { 1: "W", 0: "Draw", "-1": "L" };
+        row.insertCell().textContent = result.playerName;
+        row.insertCell().textContent = resultText[result.gameEval];
+        row.insertCell().textContent = result.playerHand;
+        row.insertCell().textContent = result.systemHand;
+
+    }, 3000);
+});
+
+showStartpage();
