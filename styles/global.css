@@ -1,35 +1,71 @@
-#board {
-    list-style-type: none;
+/* === Import Font === */
+@import url('https://fonts.cdnfonts.com/css/burbank-big-condensed');
+
+/* === CSS Variables === */
+:root {
+    --primary-color: #4e00ff;
+    --secondary-color: #00eaff;
+    --accent-color: #ffd900;
+    --bg-gradient: linear-gradient(135deg, #13003a, #29005a, #3a0095);
+    --text-color: #fff;
+    --button-bg: linear-gradient(135deg, #00a2ff, #0075ff);
+    --button-hover: linear-gradient(135deg, #ffd900, #ff7b00);
+    --card-bg: rgb(255 255 255 / 8%);
+    --border-glow: 0 0 10px #00eaff, 0 0 25px #4e00ff;
 }
 
-#board li:nth-of-type(1) #rank {
-    color: darkgoldenrod;
+/* === Global Styles === */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Burbank Big Condensed', Impact, sans-serif; /* Default font */
 }
 
-#board li:nth-of-type(2) #rank {
-    color: silver;
+/* === Body === */
+body {
+    background: var(--bg-gradient); /* Gradient background */
+    min-height: 100vh; /* Full viewport height */
+    color: var(--text-color); /* Default text color */
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
-#board li:nth-of-type(3) #rank {
-    color: saddlebrown;
+/* === Main Container / Card === */
+main.wrap {
+    width: 90%;
+    max-width: 1000px;
+    background: var(--card-bg); /* Semi-transparent card */
+    backdrop-filter: blur(10px); /* Glassmorphism effect */
+    border: 2px solid rgb(255 255 255 / 20%);
+    border-radius: 20px;
+    padding: 2rem;
+    box-shadow: var(--border-glow); /* Glow effect */
+    animation: fade-in 0.8s ease-out; /* Entrance animation */
 }
 
-#gameSection {
-    display: none;
+/* === Header === */
+header h1 {
+    font-size: 2.8rem;
+    color: var(--accent-color);
+    text-shadow: 2px 3px #000, 0 0 15px var(--secondary-color);
+    text-transform: uppercase;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    letter-spacing: 2px;
 }
 
-#historySection {
-    display: none;
-}
-
+/* === Toggle switch === */
 .switch {
     position: relative;
     display: inline-block;
-    width: 160px;
-    height: 36px;
+    width: 60px;
+    height: 34px;
 }
 
-/* Hide the checkbox */
+/* Hide the default checkbox */
 .switch input {
     opacity: 0;
     width: 0;
@@ -39,48 +75,204 @@
 /* Slider background */
 .slider {
     position: absolute;
-    top: 0; left: 0; right: 0; bottom: 0;
-    background-color: #ccc;
-    border-radius: 36px;
-    transition: background-color 0.25s;
+    inset: 0;
+    cursor: pointer;
+    background-color: #444;
+    transition: 0.4s;
+    border-radius: 34px;
+    box-shadow: inset 0 0 10px #000;
 }
 
-/* Knob */
+/* Slider knob */
 .slider::before {
     content: "";
     position: absolute;
-    height: 32px;
-    width: 32px;
-    left: 2px;
     top: 2px;
-    background-color: white;
+    height: 26px;
+    width: 26px;
+    left: 4px;
+    bottom: 4px;
+    background-color: var(--accent-color);
+    transition: 0.4s;
     border-radius: 50%;
-    transition: transform 0.25s;
-    box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+    box-shadow: 0 0 10px var(--accent-color);
 }
 
-/* Text labels inside slider */
-.slider::after {
-    content: "Offline";
-    position: absolute;
-    width: 100%;
-    text-align: center;
-    line-height: 36px;
-    font-family: sans-serif;
-    font-weight: bold;
-    color: white;
-    transition: content 0.25s;
-}
-
-/* Checked state */
+/* Slider checked state */
 input:checked + .slider {
-    background-color: #4cd964;
+    background-color: var(--secondary-color);
 }
 
 input:checked + .slider::before {
-    transform: translateX(128px); /* width - knob size - padding */
+    transform: translateX(26px); /* Move knob to the right */
+    background-color: #0f0; /* Turn knob green */
+    box-shadow: 0 0 15px #0f0;
 }
 
-input:checked + .slider::after {
-    content: "Online";
+/* === Sections === */
+section {
+    margin-top: 2rem;
+}
+
+/* Flex container utility */
+.flex {
+    display: flex;
+    gap: 1rem;
+    justify-content: center;
+}
+
+/* === Leaderboard === */
+#leaderboard {
+    list-style: none;
+    padding: 0;
+    margin: 1rem 0;
+    font-size: 1.4rem;
+    color: var(--text-color);
+    text-align: center;
+}
+
+#leaderboard li {
+    background: rgb(255 255 255 / 10%);
+    border: 2px solid rgb(255 255 255 / 20%);
+    margin: 0.3rem 0;
+    border-radius: 10px;
+    padding: 0.5rem;
+    transition: transform 0.2s, background 0.2s;
+}
+
+#leaderboard li:hover {
+    background: rgb(255 255 255 / 25%);
+    transform: scale(1.05);
+}
+
+/* === Player Input Section === */
+#player-input-section input {
+    padding: 0.8rem 1rem;
+    font-size: 1.2rem;
+    border-radius: 10px;
+    border: none;
+    outline: none;
+    width: 60%;
+    text-align: center;
+}
+
+#player-input-section button {
+    padding: 0.8rem 1.5rem;
+    font-size: 1.4rem;
+    background: var(--button-bg);
+    color: #fff;
+    border: none;
+    border-radius: 10px;
+    text-transform: uppercase;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    text-shadow: 1px 1px #000;
+}
+
+/* === Game Section === */
+#select-section {
+    margin-top: 2rem;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 1rem;
+}
+
+#select-section button {
+    padding: 1rem 2rem;
+    font-size: 1.5rem;
+    border-radius: 15px;
+    background: var(--button-bg);
+    border: 2px solid rgb(255 255 255 / 30%);
+    color: #fff;
+    text-transform: uppercase;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    text-shadow: 1px 1px #000;
+}
+
+/* Button hover effects */
+#player-input-section button:hover,
+#select-section button:hover {
+    background: var(--button-hover);
+    box-shadow: var(--border-glow);
+    transform: scale(1.1);
+}
+
+#select-section button:hover {
+    transform: scale(1.1) rotate(-2deg);
+}
+
+/* === Result Display === */
+#result-message {
+    margin-top: 1.5rem;
+    text-align: center;
+    font-size: 2rem;
+    color: var(--accent-color);
+    text-shadow: 2px 2px #000, 0 0 10px var(--secondary-color);
+    min-height: 2.5rem;
+}
+
+/* === Return Button === */
+#return-button {
+    margin-top: 2rem;
+    padding: 0.8rem 1.8rem;
+    font-size: 1.2rem;
+    border-radius: 10px;
+    background: linear-gradient(135deg, #ff008c, #ff4d00);
+    border: none;
+    color: #fff;
+    text-transform: uppercase;
+    cursor: pointer;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+#return-button:hover {
+    transform: scale(1.1);
+    box-shadow: var(--border-glow);
+}
+
+/* === History Table Section === */
+#history-section {
+    margin-top: 2rem;
+    background: rgb(0 0 0 / 40%);
+    border-radius: 15px;
+    padding: 1rem;
+}
+
+#history-section h3 {
+    text-align: center;
+    font-size: 1.8rem;
+    color: var(--accent-color);
+    text-shadow: 1px 1px #000;
+}
+
+#history-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 1rem;
+    font-size: 1.2rem;
+}
+
+#history-table th, #history-table td {
+    padding: 0.8rem;
+    border-bottom: 1px solid rgb(255 255 255 / 30%);
+    text-align: center;
+}
+
+#history-table tr:hover {
+    background: rgb(255 255 255 / 15%);
+}
+
+/* === Animations === */
+@keyframes fade-in {
+    from {
+        opacity: 0;
+        transform: scale(0.9);
+    }
+
+    to {
+        opacity: 1;
+        transform: scale(1);
+    }
 }
