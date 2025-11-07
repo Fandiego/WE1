@@ -10,7 +10,7 @@
     <main class="wrap">
         <header>
             <h1 id="title">
-                <span id="titleContent"></span>
+                <span id="title-content"></span>
                 <label id="switch" class="switch">
                     <input type="checkbox" id="slider">
                     <span class="slider"></span>
@@ -23,16 +23,16 @@
                 <ul id="leaderboard"></ul>
             </section>
 
-            <section id="playerInputSection" class="flex">
-                <input id="nameField" type="text" placeholder="Name" autocomplete="name" required>
-                <button id="startButton">Spiel starten</button>
+            <section id="player-input-section" class="flex">
+                <input id="name-field" type="text" placeholder="Name" autocomplete="name" required>
+                <button id="start-button">Spiel starten</button>
             </section>
         </section>
 
         <section id="gamepage">
-            <section id="gameSection">
-                <p>Spiel für: <strong id="playerNameDisplay"></strong></p>
-                <div id="selectSection">
+            <section id="game-section">
+                <p>Spiel für: <strong id="player-name-display"></strong></p>
+                <div id="select-section">
                     <button data-hand="scissors">Schere</button>
                     <button data-hand="rock">Stein</button>
                     <button data-hand="paper">Papier</button>
@@ -40,16 +40,16 @@
                     <button data-hand="lizard">Streichholz</button>
                 </div>
                 <div>
-                    <p id="resultMessage"></p>
+                    <p id="result-message"></p>
                 </div>
                 <div class="flex">
-                    <button id="returnButton">Zurück</button>
+                    <button id="return-button">Zurück</button>
                 </div>
             </section>
 
-            <section id="historySection">
+            <section id="history-section">
                 <h3>History</h3>
-                <table id="historyTable">
+                <table id="history-table">
                     <thead>
                     <tr>
                         <th>Name</th>

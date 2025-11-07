@@ -2,11 +2,11 @@ import { gameService } from './model/game-service.js';
 
 // startpage elements
 const slider = document.getElementById('slider');
-const startButton = document.getElementById("startButton");
+const startButton = document.getElementById("start-button");
 
 // gamepage elements
-const selectSection = document.getElementById("selectSection");
-const returnButton = document.getElementById("returnButton");
+const selectSection = document.getElementById("select-section");
+const returnButton = document.getElementById("return-button");
 
 let playerName;
 
@@ -24,14 +24,14 @@ async function loadRanking() {
 function showStartpage() {
     loadRanking();
     const mode = document.getElementById("slider").checked ? "Online" : "Lokale";
-    document.getElementById("titleContent").textContent = `Startseite — ${mode} Rangliste (Top 10)`;
+    document.getElementById("title-content").textContent = `Startseite — ${mode} Rangliste (Top 10)`;
     document.getElementById("switch").style.display = "block";
     document.getElementById("startpage").style.display = "block";
     document.getElementById("gamepage").style.display = "none";
 }
 
 function showGamepage() {
-    document.getElementById("titleContent").textContent = "Neue Runde";
+    document.getElementById("title-content").textContent = "Neue Runde";
     document.getElementById("switch").style.display = "none";
     document.getElementById("startpage").style.display = "none";
     document.getElementById("gamepage").style.display = "block";
@@ -40,17 +40,17 @@ function showGamepage() {
 slider.addEventListener('change', () => {
     gameService.isOnline = slider.checked;
     const mode = slider.checked ? "Online" : "Lokale";
-    document.getElementById("titleContent").textContent = `Startseite — ${mode} Rangliste (Top 10)`;
+    document.getElementById("title-content").textContent = `Startseite — ${mode} Rangliste (Top 10)`;
     loadRanking();
 });
 
 startButton.addEventListener("click", () => {
-    playerName = document.getElementById("nameField").value.trim();
+    playerName = document.getElementById("name-field").value.trim();
     if (!playerName) {
         alert("Bitte gib einen Namen ein!");
         return;
     }
-    document.getElementById("playerNameDisplay").textContent = playerName;
+    document.getElementById("player-name-display").textContent = playerName;
     showGamepage();
 });
 
@@ -62,7 +62,7 @@ selectSection.addEventListener("click", async (event) => {
     event.preventDefault();
     const playerHand = event.target.dataset.hand;  // read data-hand
     const result = await gameService.evaluate(playerName, playerHand);
-    const resultMessage = document.getElementById("resultMessage");
+    const resultMessage = document.getElementById("result-message");
 
     // display winner
     const winnerMessage = { 1: `${playerName} won`, "-1": "Computer won", 0: "draw"};
@@ -77,7 +77,7 @@ selectSection.addEventListener("click", async (event) => {
         resultMessage.innerHTML = null;
 
         // add to history
-        const historyTable = document.getElementById("historyTable").querySelector("tbody");
+        const historyTable = document.getElementById("history-table").querySelector("tbody");
         const row = historyTable.insertRow(0);
         const resultText = { 1: "W", 0: "Draw", "-1": "L" };
         row.insertCell().textContent = result.playerName;

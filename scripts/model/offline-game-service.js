@@ -151,8 +151,6 @@ export class OfflineGameService {
         const systemHand = this.possibleHands[Math.floor(Math.random() * this.possibleHands.length)];
         const gameEval = this.#resultLookup[playerHand][systemHand];
 
-        console.log(playerName, playerHand, systemHand, gameEval);
-
         await Utils.wait(OfflineGameService.DELAY_MS); // emulate async
 
         return {playerName, gameEval, playerHand, systemHand};

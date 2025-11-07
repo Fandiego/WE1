@@ -88,8 +88,6 @@ export class OnlineGameService {
 
     // TODO
     async evaluate(playerName, playerHand) {
-        console.log(playerName, playerHand);
-        console.log("online");
         // TODO Server API CALL
         const url = `https://stone.sifs0005.infs.ch/play?playerName=${encodeURIComponent(playerName)}&playerHand=${encodeURIComponent(playerHand.charAt(0).toUpperCase() + playerHand.slice(1).toLowerCase())}&mode=spock`;
 
