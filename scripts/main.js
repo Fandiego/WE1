@@ -37,6 +37,7 @@ function showGamepage() {
     document.getElementById("switch").style.display = "none";
     document.getElementById("startpage").style.display = "none";
     document.getElementById("gamepage").style.display = "block";
+    document.getElementById("history-table").querySelector("tbody").innerHTML = "";
 }
 
 slider.addEventListener('change', () => {
