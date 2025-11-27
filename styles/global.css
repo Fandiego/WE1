@@ -145,6 +145,17 @@ section {
     transform: scale(1.05);
 }
 
+/* === No Name Alert === */
+#no-name-alert-section {
+    text-align: center;
+    font-size: 1.5rem;
+    background: linear-gradient(135deg, #ff008c, #ff4d00);
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    animation: fade-in 0.5s ease-out;
+    margin-top: 1rem;
+}
+
 /* === Player Input Section === */
 #player-input-section input {
     padding: 0.8rem 1rem;

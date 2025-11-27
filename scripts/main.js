@@ -28,6 +28,7 @@ function showStartpage() {
     document.getElementById("switch").style.display = "block";
     document.getElementById("startpage").style.display = "block";
     document.getElementById("gamepage").style.display = "none";
+    document.getElementById("no-name-alert-section").style.display = "none";
 }
 
 function showGamepage() {
@@ -47,7 +48,10 @@ slider.addEventListener('change', () => {
 startButton.addEventListener("click", () => {
     playerName = document.getElementById("name-field").value.trim();
     if (!playerName) {
-        alert("Bitte gib einen Namen ein!");
+        document.getElementById("no-name-alert-section").style.display = "block";
+        setTimeout(() => {
+            document.getElementById("no-name-alert-section").style.display = "none";
+        }, 5000);
         return;
     }
     document.getElementById("player-name-display").textContent = playerName;
