@@ -45,7 +45,8 @@ slider.addEventListener('change', () => {
     loadRanking();
 });
 
-startButton.addEventListener("click", () => {
+startButton.addEventListener("click", (event) => {
+    event.preventDefault();
     playerName = document.getElementById("name-field").value.trim();
     if (!playerName) {
         document.getElementById("no-name-alert-section").style.display = "block";

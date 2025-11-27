@@ -157,6 +157,27 @@ section {
 }
 
 /* === Player Input Section === */
+#player-input-section form {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 1rem;
+    width: 100%;
+    height: 100%;
+}
+
+.hidden-label {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border: 0;
+}
+
 #player-input-section input {
     padding: 0.8rem 1rem;
     font-size: 1.2rem;
