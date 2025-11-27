@@ -24,54 +24,6 @@ export class OfflineGameService {
             win: 4,
             lost: 5,
         },
-        /**
-         * Testing
-         */
-        Sarah: {
-            user: 'Sarah',
-            win: 7,
-            lost: 2,
-        },
-        Tom: {
-            user: 'Tom',
-            win: 5,
-            lost: 4,
-        },
-        Julia: {
-            user: 'Julia',
-            win: 8,
-            lost: 1,
-        },
-        Kevin: {
-            user: 'Kevin',
-            win: 2,
-            lost: 7,
-        },
-        Anna: {
-            user: 'Anna',
-            win: 6,
-            lost: 3,
-        },
-        David: {
-            user: 'David',
-            win: 9,
-            lost: 0,
-        },
-        Ben: {
-            user: 'Ben',
-            win: 1,
-            lost: 8,
-        },
-        Emma: {
-            user: 'Emma',
-            win: 5,
-            lost: 4,
-        },
-        Noah: {
-            user: 'Noah',
-            win: 3,
-            lost: 6,
-        },
     };
 
     // Can be used to check if the selected hand wins/loses
@@ -150,6 +102,10 @@ export class OfflineGameService {
     async evaluate(playerName, playerHand) {
         const systemHand = this.possibleHands[Math.floor(Math.random() * this.possibleHands.length)];
         const gameEval = this.#resultLookup[playerHand][systemHand];
+
+        // add player to Ranking
+        (this.#playerState[playerName] ??= { user: playerName, win: 0, lost: 0 });
+        if (gameEval) this.#playerState[playerName][gameEval === 1 ? 'win' : 'lost']++;
 
         await Utils.wait(OfflineGameService.DELAY_MS); // emulate async
 
