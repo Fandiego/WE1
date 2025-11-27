@@ -235,6 +235,25 @@ section {
     transform: scale(1.1) rotate(-2deg);
 }
 
+/* Disabled button state */
+#select-section button:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+    background: #555; /* or a dimmer version of var(--button-bg) */
+    border: 2px solid rgb(255 255 255 / 10%);
+    color: #ccc;
+    transform: none; /* prevent hover transform */
+    box-shadow: none;
+    text-shadow: none;
+}
+
+/* Prevent hover effects on disabled buttons */
+#select-section button:disabled:hover {
+    background: #555;
+    box-shadow: none;
+    transform: none;
+}
+
 /* === Result Display === */
 #result-message {
     margin-top: 1.5rem;
