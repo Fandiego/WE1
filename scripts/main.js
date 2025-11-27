@@ -2,6 +2,7 @@ import { gameService } from './model/game-service.js';
 
 // startpage elements
 const slider = document.getElementById('slider');
+const nameField = document.getElementById("name-field");
 const startButton = document.getElementById("start-button");
 
 // gamepage elements
@@ -57,6 +58,12 @@ startButton.addEventListener("click", (event) => {
     }
     document.getElementById("player-name-display").textContent = playerName;
     showGamepage();
+});
+
+nameField.addEventListener("keydown", (event) => {
+    if (event.key === "Enter") {
+        startButton.click();
+    }
 });
 
 returnButton.addEventListener("click", () => {
