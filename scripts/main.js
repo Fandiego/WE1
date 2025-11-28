@@ -25,7 +25,7 @@ async function loadRanking() {
 function showStartpage() {
     loadRanking();
     const mode = document.getElementById("slider").checked ? "Online" : "Lokale";
-    document.getElementById("title-content").textContent = `${mode} Rangliste (Top 10)`;
+    document.getElementById("title-content").textContent = `${mode} Rangliste`;
     document.getElementById("switch").style.display = "block";
     document.getElementById("startpage").style.display = "block";
     document.getElementById("gamepage").style.display = "none";
@@ -43,7 +43,7 @@ function showGamepage() {
 slider.addEventListener('change', () => {
     gameService.isOnline = slider.checked;
     const mode = slider.checked ? "Online" : "Lokale";
-    document.getElementById("title-content").textContent = `${mode} Rangliste (Top 10)`;
+    document.getElementById("title-content").textContent = `${mode} Rangliste`;
     loadRanking();
 });
 
