@@ -118,7 +118,7 @@ export class OnlineGameService {
             }
             gameEval = Number(gameEval);
 
-            return { playerName, gameEval, playerHand, systemHand};
+            return { playerName, gameEval, playerHand, systemHand: systemHand.toLowerCase()};
 
         } catch (error) {
             console.error('Failed to evaluate game:', error);

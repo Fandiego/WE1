@@ -89,14 +89,23 @@ selectSection.addEventListener("click", async (event) => {
         // remove winner message
         resultMessage.innerHTML = null;
 
+        // map labels to german
+        const handLabelGerman = {
+            scissors: "Schere",
+            rock: "Stein",
+            paper: "Papier",
+            spock: "Brunnen",
+            lizard: "Streichholz"
+        };
+
         // add to history
         const historyTable = document.getElementById("history-table").querySelector("tbody");
         const row = historyTable.insertRow(0);
         const resultText = { 1: "W", 0: "Draw", "-1": "L" };
         row.insertCell().textContent = result.playerName;
         row.insertCell().textContent = resultText[result.gameEval];
-        row.insertCell().textContent = result.playerHand;
-        row.insertCell().textContent = result.systemHand;
+        row.insertCell().textContent = handLabelGerman[result.playerHand];
+        row.insertCell().textContent = handLabelGerman[result.systemHand];
 
     }, 3000);
 });
