@@ -145,6 +145,15 @@ section {
     transform: scale(1.05);
 }
 
+#leaderboard li#rankings-not-loaded-error {
+    background: linear-gradient(135deg, #ff008c, #ff4d00);
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    animation: fade-in 0.5s ease-out;
+    border: none;
+    transform: none;
+}
+
 /* === No Name Alert === */
 #no-name-alert-section {
     text-align: center;
@@ -262,6 +271,15 @@ section {
     color: var(--accent-color);
     text-shadow: 2px 2px #000, 0 0 10px var(--secondary-color);
     min-height: 2.5rem;
+}
+
+/* Result Display Online Error */
+#result-message.online-error {
+    background: linear-gradient(135deg, #ff008c, #ff4d00);
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    text-shadow: none;
+    animation: fade-in 0.5s ease-out;
 }
 
 /* === Return Button === */

@@ -13,13 +13,20 @@ let playerName;
 
 async function loadRanking() {
     const leaderboard = document.getElementById('leaderboard')
-    const rankings = await gameService.getRankings();
     leaderboard.replaceChildren();
-    Object.values(rankings).forEach((x) => {
+    try{
+        const rankings = await gameService.getRankings();
+        Object.values(rankings).forEach((x) => {
+            const li = document.createElement('li');
+            li.innerHTML = `<span id="rank">${x.rank}.</span> ${x.user} (${x.wins}W, ${x.lost}L)`;
+            leaderboard.appendChild(li);
+        });
+    } catch (error) {
         const li = document.createElement('li');
-        li.innerHTML = `<span id="rank">${x.rank}.</span> ${x.user} (${x.wins}W, ${x.lost}L)`;
+        li.id = "rankings-not-loaded-error";
+        li.textContent = "Rankings could not be loaded";
         leaderboard.appendChild(li);
-    });
+    }
 }
 
 function showStartpage() {
@@ -74,40 +81,50 @@ returnButton.addEventListener("click", () => {
 selectSection.addEventListener("click", async (event) => {
     event.preventDefault();
     const playerHand = event.target.dataset.hand;  // read data-hand
-    const result = await gameService.evaluate(playerName, playerHand);
-    const resultMessage = document.getElementById("result-message");
+    try {
+        const result = await gameService.evaluate(playerName, playerHand);
+        const resultMessage = document.getElementById("result-message");
 
-    // display winner
-    const winnerMessage = { 1: `${playerName} won`, "-1": "Computer won", 0: "draw"};
-    resultMessage.innerHTML = winnerMessage[result.gameEval];
+        // display winner
+        const winnerMessage = { 1: `${playerName} won`, "-1": "Computer won", 0: "draw"};
+        resultMessage.innerHTML = winnerMessage[result.gameEval];
 
-    // disable Button temporally
-    selectSection.querySelectorAll('button').forEach((el => {el.disabled = true;}));
-    setTimeout(() => {
-        selectSection.querySelectorAll('button').forEach((el => {el.disabled = false;}));
+        // disable Button temporally
+        selectSection.querySelectorAll('button').forEach((el => {el.disabled = true;}));
+        setTimeout(() => {
+            selectSection.querySelectorAll('button').forEach((el => {el.disabled = false;}));
 
-        // remove winner message
-        resultMessage.innerHTML = null;
+            // remove winner message
+            resultMessage.innerHTML = null;
 
-        // map labels to german
-        const handLabelGerman = {
-            scissors: "Schere",
-            rock: "Stein",
-            paper: "Papier",
-            spock: "Brunnen",
-            lizard: "Streichholz"
-        };
+            // map labels to german
+            const handLabelGerman = {
+                scissors: "Schere",
+                rock: "Stein",
+                paper: "Papier",
+                spock: "Brunnen",
+                lizard: "Streichholz"
+            };
 
-        // add to history
-        const historyTable = document.getElementById("history-table").querySelector("tbody");
-        const row = historyTable.insertRow(0);
-        const resultText = { 1: "W", 0: "Draw", "-1": "L" };
-        row.insertCell().textContent = result.playerName;
-        row.insertCell().textContent = resultText[result.gameEval];
-        row.insertCell().textContent = handLabelGerman[result.playerHand];
-        row.insertCell().textContent = handLabelGerman[result.systemHand];
+            // add to history
+            const historyTable = document.getElementById("history-table").querySelector("tbody");
+            const row = historyTable.insertRow(0);
+            const resultText = { 1: "W", 0: "Draw", "-1": "L" };
+            row.insertCell().textContent = result.playerName;
+            row.insertCell().textContent = resultText[result.gameEval];
+            row.insertCell().textContent = handLabelGerman[result.playerHand];
+            row.insertCell().textContent = handLabelGerman[result.systemHand];
 
-    }, 3000);
+        }, 3000);
+    } catch (error) {
+        const resultMessage = document.getElementById("result-message");
+        resultMessage.textContent = "Error with online Service. Try again later.";
+        resultMessage.classList.add("online-error");
+        setTimeout(() => {
+            resultMessage.innerHTML = null;
+            resultMessage.classList.remove("online-error");
+        }, 3000);
+    }
 });
 
 showStartpage();
