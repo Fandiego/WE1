@@ -7,7 +7,7 @@ export class OfflineGameService {
         this.possibleHands = Object.keys(this.#resultLookup);
     }
 
-    // same data structure as server
+    // rankings: same data structure as server
     #playerState = {
         Markus: {
             user: 'Markus',
@@ -26,8 +26,6 @@ export class OfflineGameService {
         },
     };
 
-    // Can be used to check if the selected hand wins/loses
-    // TODO : complete structure
     #resultLookup = {
         scissors: {
             scissors: 0,
@@ -68,42 +66,14 @@ export class OfflineGameService {
 
 
     async getRankings() {
-        // TODO create ranking from playerState for Example: [{rank: 1, wins: 10, players: ["Michael", "Lias"]}, {rank: 2, wins: 5, players: ["Max"]}]
-        const players = Object.values(this.#playerState);
-
-        // Sort players by wins (descending)
-        const sorted = players.sort((a, b) => b.win - a.win);
-
-        // Take only the first 10 entries
-        const topTen = sorted.slice(0, 10);
-
-        let lastWins = null;
-        let lastRank = 0;
-
-        // Add rank numbers
-        const rankings = topTen.map((player, index) => {
-            // If wins are same as previous, keep the same rank
-            if (player.win !== lastWins) {
-                lastRank = index + 1;  // new rank
-                lastWins = player.win;
-            }
-            return {
-                rank: lastRank,
-                user: player.user,
-                wins: player.win,
-                lost: player.lost,
-            };
-        });
-
-        return Promise.resolve(rankings);
+        return Object.values(this.#playerState);
     }
 
-    // TODO
     async evaluate(playerName, playerHand) {
         const systemHand = this.possibleHands[Math.floor(Math.random() * this.possibleHands.length)];
         const gameEval = this.#resultLookup[playerHand][systemHand];
 
-        // add player to Ranking
+        // add player to ranking
         (this.#playerState[playerName] ??= { user: playerName, win: 0, lost: 0 });
         if (gameEval) this.#playerState[playerName][gameEval === 1 ? 'win' : 'lost']++;
 
