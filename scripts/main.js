@@ -40,9 +40,6 @@ function showPage(page) {
         loadRanking();
         document.getElementById("no-name-alert-section").style.display = "none";
     }
-    else if (page === "gamepage") {
-        document.getElementById("history-table").querySelector("tbody").replaceChildren();
-    }
 
     // show switch only on startpage
     document.getElementById("switch").style.display = page === "startpage" ? "block" : "none";
