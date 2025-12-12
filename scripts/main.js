@@ -106,8 +106,8 @@ selectSection.addEventListener("click", async (event) => {
                 scissors: "Schere",
                 rock: "Stein",
                 paper: "Papier",
-                spock: "Brunnen",
-                lizard: "Streichholz"
+                lizard: "Echse",
+                spock: "Spock"
             };
 
             // add to history
