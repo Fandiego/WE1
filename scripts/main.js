@@ -29,29 +29,36 @@ async function loadRanking() {
     }
 }
 
-function showStartpage() {
-    loadRanking();
-    const mode = document.getElementById("slider").checked ? "Online" : "Lokale";
-    document.getElementById("title-content").textContent = `${mode} Rangliste`;
-    document.getElementById("switch").style.display = "block";
-    document.getElementById("startpage").style.display = "block";
-    document.getElementById("gamepage").style.display = "none";
-    document.getElementById("no-name-alert-section").style.display = "none";
-}
+function showPage(page) {
+    const pagesTitleContent = {
+        startpage: `${slider.checked ? "Online" : "Lokale"} Rangliste`,
+        gamepage: `Neue ${slider.checked ? "Online" : "Lokale"} Runde`,
+    };
 
-function showGamepage() {
-    document.getElementById("title-content").textContent = "Neue Runde";
-    document.getElementById("switch").style.display = "none";
-    document.getElementById("startpage").style.display = "none";
-    document.getElementById("gamepage").style.display = "block";
-    document.getElementById("history-table").querySelector("tbody").innerHTML = "";
+    // perform page-specific actions
+    if (page === "startpage") {
+        loadRanking();
+        document.getElementById("no-name-alert-section").style.display = "none";
+    }
+    else if (page === "gamepage") {
+        document.getElementById("history-table").querySelector("tbody").replaceChildren();
+    }
+
+    // show switch only on startpage
+    document.getElementById("switch").style.display = page === "startpage" ? "block" : "none";
+
+    // set the page title
+    document.getElementById("title-content").textContent = pagesTitleContent[page];
+
+    // hide all other pages, show the selected page
+    Object.keys(pagesTitleContent).forEach(id => {
+        document.getElementById(id).style.display = id === page ? "block" : "none";
+    });
 }
 
 slider.addEventListener('change', () => {
     gameService.isOnline = slider.checked;
-    const mode = slider.checked ? "Online" : "Lokale";
-    document.getElementById("title-content").textContent = `${mode} Rangliste`;
-    loadRanking();
+    showPage("startpage");
 });
 
 startButton.addEventListener("click", (event) => {
@@ -65,7 +72,7 @@ startButton.addEventListener("click", (event) => {
         return;
     }
     document.getElementById("player-name-display").textContent = playerName;
-    showGamepage();
+    showPage("gamepage");
 });
 
 nameField.addEventListener("keydown", (event) => {
@@ -75,7 +82,7 @@ nameField.addEventListener("keydown", (event) => {
 });
 
 returnButton.addEventListener("click", () => {
-    showStartpage();
+    showPage("startpage");
 });
 
 selectSection.addEventListener("click", async (event) => {
@@ -127,4 +134,4 @@ selectSection.addEventListener("click", async (event) => {
     }
 });
 
-showStartpage();
+showPage("startpage");
